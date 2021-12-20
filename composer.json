@@ -1,5 +1,5 @@
 {
-  "name": "bs-code/bsaggridbundle",
+  "name": "bs-code/ag-grid-bundle",
   "description": "Base bundle to build a server side ag grid table required by the ag grid javascript library",
   "type": "symfony-bundle",
   "version": "1.1",

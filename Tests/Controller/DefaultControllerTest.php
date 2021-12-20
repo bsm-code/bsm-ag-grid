@@ -1,6 +1,6 @@
 <?php
 
-namespace AgGridBundle\Tests\Controller;
+namespace BsCode\AgGridBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

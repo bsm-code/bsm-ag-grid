@@ -6,7 +6,7 @@
  * Time: 12:06
  */
 
-namespace AgGridBundle\Core;
+namespace BsCode\AgGridBundle\Core;
 
 
 interface IAgGridRepository

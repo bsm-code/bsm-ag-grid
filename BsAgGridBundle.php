@@ -1,6 +1,6 @@
 <?php
 
-namespace AgGridBundle;
+namespace BsCode\AgGridBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

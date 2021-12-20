@@ -6,14 +6,14 @@
  * Time: 03:14
  */
 
-namespace AgGridBundle\Interfaces;
+namespace BsCode\AgGridBundle\Interfaces;
 
 
 use Doctrine\ORM\Query;
 
 /**
  * Interface PaginatorRepositoryInterface
- * @package AgGridBundle\Interfaces
+ * @package BsCode\AgGridBundle\Interfaces
  *
  * Use this interface to create your own paginator repository for AgGrid
  */

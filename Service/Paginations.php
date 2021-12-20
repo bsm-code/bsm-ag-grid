@@ -6,7 +6,7 @@
  * Time: 11:23
  */
 
-namespace AgGridBundle\Service;
+namespace BsCode\AgGridBundle\Service;
 
 
 use Doctrine\ORM\Query;

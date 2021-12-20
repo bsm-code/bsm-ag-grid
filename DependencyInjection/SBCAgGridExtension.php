@@ -1,6 +1,6 @@
 <?php
 
-namespace AgGridBundle\DependencyInjection;
+namespace BsCode\AgGridBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

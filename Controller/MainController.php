@@ -1,6 +1,6 @@
 <?php
 
-namespace AgGridBundle\Controller;
+namespace BsCode\AgGridBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class MainController
- * @package AgGridBundle\Controller
+ * @package BsCode\AgGridBundle\Controller
  * @Route("/bs_grid" , name="paginationAgGrid")
  */
 class MainController extends Controller

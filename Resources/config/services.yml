@@ -1,4 +1,4 @@
 services:
   my_agGrid.pagination:
-    class: AgGridBundle\Service\Paginations
+    class: BsCode\AgGridBundle\Service\Paginations
     arguments: ['@doctrine.orm.default_entity_manager']
