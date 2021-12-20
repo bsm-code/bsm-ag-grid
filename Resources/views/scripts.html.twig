@@ -1,0 +1,137 @@
+<div id="myModalLoader" class="modal" datasrc="modal" >
+    <div class="modal-content" datasrc="modal" style="border: none;background-color: transparent;">
+        <section id="modelsloaderView" style="width: 100%;height: calc(100vh - 296px);display: flex;
+                    justify-content: center;align-items: center; background-color: transparent;">
+            <h3 class="uk-text-upper uk-text-small" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);
+                color: #1c2833; font-size: 5vh;"> Chargement en cours ...</h3>
+            <div style="display: inline-block">
+                <div style="display: inline-block;position: absolute;top: 50%;left: 40%;height: 3vh;width: 3vh;margin: 15px;border-radius: 50%;
+                            background-color: #0ff;box-shadow: 0 0 15px #0ff;z-index: 1;
+                            animation: anim 0.7s ease 0s infinite;">
+                </div>
+                <div style="display: inline-block;position: absolute;top: 50%;left: 43%;height: 3vh;width: 3vh;margin: 15px;border-radius: 50%;
+                            background-color: #0ff;box-shadow: 0 0 15px #0ff;z-index: 1;
+                            animation: anim 0.7s ease 0.2s infinite;">
+                </div>
+                <div style="display: inline-block;position: absolute;top: 50%;left: 46%;height: 3vh;width: 3vh;margin: 15px;border-radius: 50%;
+                            background-color: #0ff;box-shadow: 0 0 15px #0ff;z-index: 1;
+                            animation: anim 0.7s ease 0.4s infinite;">
+                </div>
+                <div style="display: inline-block;position: absolute;top: 50%;left: 49%;height: 3vh;width: 3vh;margin: 15px;border-radius: 50%;
+                            background-color: #0ff;box-shadow: 0 0 15px #0ff;z-index: 1;
+                            animation: anim 0.7s ease 0.6s infinite;">
+                </div>
+                <div style="display: inline-block;position: absolute;top: 50%;left: 52%;height: 3vh;width: 3vh;margin: 15px;border-radius: 50%;
+                            background-color: #0ff;box-shadow: 0 0 15px #0ff;z-index: 1;
+                            animation: anim 0.7s ease 0.8s infinite;">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="{{ asset('ag-grid/dist/printJS/print.min.js') }}"></script>
+<script src="{{ asset('altair/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('ag-grid/config/SBCColumnsAgGrid.js') }}"></script>
+<script src="{{ asset('ag-grid/config/SBCExcelAgGrid.js') }}"></script>
+<script src="{{ asset('ag-grid/config/SBCPrintAgGrid.js') }}"></script>
+<script src="{{ asset('ag-grid/config/SBCAgGridComponents.js') }}"></script>
+<script src="{{ asset('ag-grid/config/components/EditDeleteCellRenderer.js') }}"></script>
+<script src="{{ asset('ag-grid/dist/FileSaver.js-master/dist/FileSaver.min.js') }}"></script>
+<script src="{{ asset('ag-grid/dist/sheetjs-master/dist/xlsx.full.min.js') }}"></script>
+<script src="{{ asset('ag-grid/config/filters/text-filter.js') }}"></script>
+<script src="{{ asset('ag-grid/config/filters/date-filter.js') }}"></script>
+<script src="{{ asset('ag-grid/config/filters/is-null-filter.js') }}"></script>
+<script src="{{ asset('ag-grid/config/filters/number-filter.js') }}"></script>
+<script src="{{ asset('External/date.format.js') }}"></script>
+<script src="{{ asset('External/jqueryNumberFormatter/jshashtable-2.1.js') }}"></script>
+<script src="{{ asset('External/jqueryNumberFormatter/jquery.numberformatter-1.2.4.js') }}"></script>
+<script src="{{ asset('ag-grid/config/SBCAgGridTable.js') }}"></script>
+<script>
+    var Loadermodal ;
+    var spinnerImg = "{{ asset('altair/assets/img/spinners/spinner.gif') }}";
+
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    function glSearchAgKeyUp(event){
+        if(event.keyCode === 13){
+            agGridInstance.paginateData(1);
+        }
+    }
+
+    var url_filter_Column = "{{ path('load_distinct_column_data') }}";
+
+    /**
+     * function that format a date value in params to a specified date format
+     * @param params
+     * @return {*}
+     */
+    function dateFormatter(params) {
+        try{
+            return dateFormat(params.value, columnsInstance.getDateFormatByField(params.colDef.field), true);
+        }catch (e) {
+            return params.value;
+        }
+    }
+
+    function numberFormatterValue(value){
+        $.formatNumber(value, {format: '#,##0.000', locale: 'fr'})
+    }
+    let resultSets;
+
+    var columnsInstance = new SBCColumnsAgGrid();
+    var printInstance = new SBCPrintAgGrid();
+    var componentsInstance = new SBCAgGridComponent();
+    var excelInstance = new SBCExcelAgGrid();
+    var agGridInstance = new SBCAgGridTable();
+    /**
+     * function to remove the entity
+     */
+    var deleteFunction = function(id, index , type){
+        console.log(id);
+        UIkit.modal.confirm('Êtes-vous sûr de vouloir supprimer définitivement cette '+type+' ?',
+            function(){ deleteEntity ( id, 'code', agGridInstance.searchNode.entity, agGridInstance.searchNode.bundle, index,
+                ()=> {agGridInstance.paginateData(1)}) });
+    }
+
+    $(document).ready(function(){
+        componentsInstance.initPagination(1);
+        //$('#data-containe-ag').append(ul_list_columns);
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target.getAttribute("datasrc") !=="modal") {
+                $('#initial-columns').empty();
+                $('#results-columns').empty();
+                $('#myModal').remove();
+            }else{
+                if(event.target.getAttribute("datasrc") !=="filter"){
+                    $('#zone-filter-per-column-ag').remove();
+                }
+            }
+        }
+
+       /* //setup before functions
+        var typingTimer;                //timer identifier
+        var doneTypingInterval = 1000;  //time in ms, 5 second for example
+        var $input = $('#searched-in-agGrid');
+
+        //on keyup, start the countdown
+        $input.change(function() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+        });
+
+        //on keydown, clear the countdown
+        /*$input.on('keydown', function () {
+            clearTimeout(typingTimer);
+        });*/
+
+        //user is "finished typing," do something
+        function doneTyping () {
+            agGridInstance.paginateData(1);
+        }
+    })
+</script>

@@ -1,0 +1,18 @@
+{
+  "name": "bs-code/bsaggridbundle",
+  "description": "Base bundle to build a server side ag grid table required by the ag grid javascript library",
+  "type": "symfony-bundle",
+  "version": "1.1",
+  "license": "proprietary",
+  "authors": [{"name": "Meher Ben.Salah", "email": "meherbensalah4@gmail.com"}],
+  "minimum-stability": "stable",
+  "require": {
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4":  {
+      "AgGridBundle\\": "bs-code/"
+    }
+  }
+}
